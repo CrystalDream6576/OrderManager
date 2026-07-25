@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/OrderManager/.vs/OrderManager.slnx
+/OrderManager/OrderManager.Application/obj
+/OrderManager/OrderManager.Console/obj
+/OrderManager/OrderManager.Domain/obj
+/OrderManager/OrderManager.Infrastructure/obj
