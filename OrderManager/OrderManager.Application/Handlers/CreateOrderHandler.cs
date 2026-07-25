@@ -1,5 +1,6 @@
 ﻿using OrderManager.Application.Abstractions;
 using OrderManager.Application.Commands;
+using OrderManager.Domain.Domain.Order;
 
 
 namespace OrderManager.Application.Handlers

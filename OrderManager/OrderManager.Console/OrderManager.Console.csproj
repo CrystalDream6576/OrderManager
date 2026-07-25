@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrderManager.Application\OrderManager.Application.csproj" />
+    <ProjectReference Include="..\OrderManager.Infrastructure\OrderManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

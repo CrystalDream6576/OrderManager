@@ -1,7 +1,4 @@
-﻿using MediatorExample.Application.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OrderManager.Application.Abstractions;
 
 namespace OrderManager.Application.Mediator
 {

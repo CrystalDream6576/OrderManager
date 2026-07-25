@@ -1,7 +1,6 @@
-﻿using MediatorExample.Application.Abstractions;
-using MediatorExample.Domain;
-using MediatorExample.Infrastructure.Repositories;
+﻿using OrderManager.Application.Abstractions;
 using OrderManager.Application.Queries;
+using OrderManager.Domain.Domain.Order;
 
 namespace OrderManager.Application.Handlers
 {

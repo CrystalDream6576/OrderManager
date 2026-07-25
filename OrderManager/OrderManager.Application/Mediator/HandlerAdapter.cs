@@ -1,7 +1,4 @@
-﻿using MediatorExample.Application.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OrderManager.Application.Abstractions;
 
 namespace OrderManager.Application.Mediator
 {
@@ -19,9 +16,11 @@ namespace OrderManager.Application.Mediator
         {
             if (request is not TRequest typedRequest)
             {
-                throw new ArgumentException(
-                    $"Expected request type {typeof(TRequest).Name}, " +
-                    $"but received {request.GetType().Name}.");
+                string message = string.Format("Expected request type {0},but received {1}.", 
+                    typeof(TRequest).Name,
+                    request.GetType().Name);
+
+                throw new ArgumentException(message);
             }
 
             TResult result = handler.Handle(typedRequest);
