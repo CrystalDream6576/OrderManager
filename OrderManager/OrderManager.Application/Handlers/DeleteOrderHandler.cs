@@ -1,7 +1,6 @@
 ﻿using OrderManager.Application.Abstractions.Mediator;
 using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
-using OrderManager.Domain.Repositories;
 
 namespace OrderManager.Application.Handlers
 {

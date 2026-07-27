@@ -2,8 +2,6 @@
 using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
 using OrderManager.Domain.Entities;
-using OrderManager.Domain.Repositories;
-
 
 namespace OrderManager.Application.Handlers
 {

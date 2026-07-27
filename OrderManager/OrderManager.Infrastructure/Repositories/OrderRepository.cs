@@ -1,6 +1,6 @@
-﻿using OrderManager.Domain.Entities;
+﻿using OrderManager.Application.Repositories;
+using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enums;
-using OrderManager.Domain.Repositories;
 
 namespace OrderManager.Infrastructure.Repositories
 {

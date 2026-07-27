@@ -1,8 +1,8 @@
 ﻿using OrderManager.Application.Abstractions.Observer;
 using OrderManager.Application.Abstractions.Services;
+using OrderManager.Application.Repositories;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enums;
-using OrderManager.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
