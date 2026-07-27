@@ -3,4 +3,5 @@
   <Project Path="OrderManager.Console/OrderManager.Console.csproj" Id="5042ec2e-5d12-4865-a656-03dfe41e94ad" />
   <Project Path="OrderManager.Domain/OrderManager.Domain.csproj" Id="10113c64-0f13-47a2-9fac-8088d0b30511" />
   <Project Path="OrderManager.Infrastructure/OrderManager.Infrastructure.csproj" Id="3606fd6d-0404-4a2e-b74c-e7502ef22763" />
+  <Project Path="OrderManager.Notification/OrderManager.Notification.csproj" Id="bc86feee-95b8-427d-8d13-851ee2f89ec9" />
 </Solution>

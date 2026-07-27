@@ -1,6 +1,7 @@
-﻿using OrderManager.Application.Abstractions;
+﻿using OrderManager.Application.Abstractions.Mediator;
 using OrderManager.Application.Queries;
-using OrderManager.Domain.Domain.Order;
+using OrderManager.Domain.Entities;
+using OrderManager.Domain.Repositories;
 
 namespace OrderManager.Application.Handlers
 {

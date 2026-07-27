@@ -36,10 +36,21 @@
       },
       "OrderManager.Infrastructure/1.0.0": {
         "dependencies": {
-          "OrderManager.Domain": "1.0.0"
+          "OrderManager.Notification": "1.0.0"
         },
         "runtime": {
           "OrderManager.Infrastructure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "OrderManager.Notification/1.0.0": {
+        "dependencies": {
+          "OrderManager.Application": "1.0.0"
+        },
+        "runtime": {
+          "OrderManager.Notification.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -64,6 +75,11 @@
       "sha512": ""
     },
     "OrderManager.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "OrderManager.Notification/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

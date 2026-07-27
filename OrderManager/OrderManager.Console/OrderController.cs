@@ -1,10 +1,9 @@
-﻿using OrderManager.Application.Abstractions;
+﻿using OrderManager.Application.Abstractions.Mediator;
+using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
 using OrderManager.Application.Queries;
-using OrderManager.Domain.Domain.Order;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OrderManager.Domain.Entities;
+using OrderManager.Domain.Enums;
 
 namespace OrderManager.Console
 {
@@ -20,7 +19,6 @@ namespace OrderManager.Console
         public bool CreateOrder(string name, decimal total)
         {
             var command = new CreateOrderCommand(name, total);
-
             return mediator.Send(command);
         }
 

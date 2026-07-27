@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrderManager.Application.Abstractions
+namespace OrderManager.Application.Abstractions.Mediator
 {
     /// <summary>
     /// Provides a non-generic interface that the registry and mediator can use.

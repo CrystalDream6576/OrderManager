@@ -1,21 +1,22 @@
-﻿using OrderManager.Application.Abstractions;
+﻿using OrderManager.Application.Abstractions.Mediator;
+using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
-using OrderManager.Domain.Domain.Order;
+using OrderManager.Domain.Repositories;
 
 namespace OrderManager.Application.Handlers
 {
     public class DeleteOrderHandler : IRequestHandler<DeleteOrderCommand, bool>
     {
-        private readonly IOrderRepository orderRepository;
+        private readonly IOrderService orderService;
 
-        public DeleteOrderHandler(IOrderRepository orderRepository)
+        public DeleteOrderHandler(IOrderService orderService)
         {
-            this.orderRepository = orderRepository;
+            this.orderService = orderService;
         }
 
         public bool Handle(DeleteOrderCommand request)
         {
-            return orderRepository.Delete(request.Id);
+            return orderService.Delete(request.Id);
         }
     }
 }

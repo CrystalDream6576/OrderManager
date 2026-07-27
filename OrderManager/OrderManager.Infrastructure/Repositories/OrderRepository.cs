@@ -1,5 +1,6 @@
-﻿using OrderManager.Domain.Domain.Order;
-using System.Xml.Linq;
+﻿using OrderManager.Domain.Entities;
+using OrderManager.Domain.Enums;
+using OrderManager.Domain.Repositories;
 
 namespace OrderManager.Infrastructure.Repositories
 {
@@ -9,7 +10,7 @@ namespace OrderManager.Infrastructure.Repositories
 
         private int Id = 1;
 
-        public Order Add(Order order)
+        public bool Add(Order order)
         {
             if (order is null) 
                 throw new ArgumentNullException(nameof(order));
@@ -19,7 +20,9 @@ namespace OrderManager.Infrastructure.Repositories
 
             orders.Add(order);
 
-            return order;
+            order.ChangeStatus(OrderStatus.Confirmed);
+
+            return true;
         }
 
         public bool Delete(int id)
@@ -42,5 +45,6 @@ namespace OrderManager.Infrastructure.Repositories
         {
             return orders.FirstOrDefault(x => x.Id == id);
         }
+
     }
 }

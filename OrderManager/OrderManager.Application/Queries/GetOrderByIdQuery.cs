@@ -1,5 +1,5 @@
-﻿using OrderManager.Application.Abstractions;
-using OrderManager.Domain.Domain.Order;
+﻿using OrderManager.Application.Abstractions.Mediator;
+using OrderManager.Domain.Entities;
 
 namespace OrderManager.Application.Queries
 {

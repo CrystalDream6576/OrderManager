@@ -1,93 +1,186 @@
 ﻿using Microsoft.Win32;
-using OrderManager.Application.Abstractions;
+using OrderManager.Application.Abstractions.Mediator;
+using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
 using OrderManager.Application.Handlers;
 using OrderManager.Application.Mediator;
 using OrderManager.Application.Queries;
+using OrderManager.Application.Services;
 using OrderManager.Console;
-using OrderManager.Domain.Domain.Order;
+using OrderManager.Domain.Entities;
+using OrderManager.Domain.Repositories;
 using OrderManager.Infrastructure.Repositories;
+using OrderManager.Notification.Bridge;
+using OrderManager.Notification.Providers;
+using OrderManager.Notification.Subscribers;
 
-class Program
+internal static class Program
 {
-    static void Main()
+    private static void Main()
     {
-        // 1. Create repository
+        OrderController controller = ConfigureApplication();
+
+        CreateSampleOrders(controller);
+        DisplayAllOrders(controller);
+        DisplayOrderById(controller, 2);
+        DeleteOrder(controller, 3);
+        DisplayRemainingOrders(controller);
+    }
+
+    private static OrderController ConfigureApplication()
+    {
         IOrderRepository orderRepository = new OrderRepository();
 
-        // 2. Create handlers
-        var createOrderHandler = new CreateOrderHandler(orderRepository);
-        var deleteOrderHandler = new DeleteOrderHandler(orderRepository);
-        var getAllOrdersHandler = new GetAllOrdersHandler(orderRepository);
-        var getOrderByIdHandler = new GetOrderByIdHandler(orderRepository);
+        IOrderService orderService = CreateOrderService(orderRepository);
 
-        // 3. Create registry
-        IHandlerRegistry registry = new HandlerRegistry();
+        IHandlerRegistry registry = CreateHandlerRegistry(orderRepository, orderService);
 
-        // 4. Register handlers
-        registry.Register<CreateOrderCommand, bool>(createOrderHandler);
-        registry.Register<DeleteOrderCommand, bool>(deleteOrderHandler);
-        registry.Register<GetAllOrdersQuery, IEnumerable<Order>>(getAllOrdersHandler);
-        registry.Register<GetOrderByIdQuery, Order>(getOrderByIdHandler);
-
-        // 5. Create mediator
         IMediator mediator = new OrderMediator(registry);
 
-        // 6. Create controller
-        var controller = new OrderController(mediator);
+        return new OrderController(mediator);
+    }
 
-        // 7. Create orders
-        bool Cheesecake = controller.CreateOrder("cheesecake",30);
+    private static IOrderService CreateOrderService (IOrderRepository orderRepository)
+    {
+        var orderService =new OrderService(orderRepository);
 
-        bool FruitTartCake = controller.CreateOrder("fruit tart cake", 50);
+        RegisterSubscribers(orderService);
 
-        bool MilkCake = controller.CreateOrder("Milk Cake", 45);
+        return orderService;
+    }
 
-        Console.WriteLine($"First order created: {Cheesecake}");
-        Console.WriteLine($"Second order created: {FruitTartCake}");
-        Console.WriteLine($"Third order created: {MilkCake}");
+    private static void RegisterSubscribers(IOrderService orderService)
+    {
+        IMessageProvider messageProvider = new EmailProvider();
+
+        OrderNotification notification = new EmailNotification(messageProvider);
+
+        var customerSubscriber = new CustomerOrderSubscriber(notification);
+
+        orderService.Attach(customerSubscriber);
+    }
+
+    private static IHandlerRegistry CreateHandlerRegistry(IOrderRepository orderRepository, IOrderService orderService)
+    {
+        IHandlerRegistry registry = new HandlerRegistry();
+
+        RegisterCommandHandlers(registry, orderService);
+
+        RegisterQueryHandlers(registry, orderRepository);
+
+        return registry;
+    }
+
+    private static void RegisterCommandHandlers(IHandlerRegistry registry, IOrderService orderService)
+    {
+        var createOrderHandler = new CreateOrderHandler(orderService);
+
+        var deleteOrderHandler = new DeleteOrderHandler(orderService);
+
+        registry.Register<CreateOrderCommand, bool>(createOrderHandler);
+
+        registry.Register<DeleteOrderCommand, bool>(deleteOrderHandler);
+    }
+
+    private static void RegisterQueryHandlers(IHandlerRegistry registry, IOrderRepository orderRepository)
+    {
+        var getAllOrdersHandler = new GetAllOrdersHandler(orderRepository);
+
+        var getOrderByIdHandler = new GetOrderByIdHandler(orderRepository);
+
+        registry.Register<GetAllOrdersQuery, IEnumerable<Order>>( getAllOrdersHandler);
+
+        registry.Register<GetOrderByIdQuery, Order>(getOrderByIdHandler);
+    }
+
+    private static void CreateSampleOrders(OrderController controller)
+    {
+        bool cheesecakeCreated =controller.CreateOrder("Cheesecake", 30);
+
+        bool fruitTartCreated = controller.CreateOrder("Fruit Tart Cake", 50);
+
+        bool milkCakeCreated = controller.CreateOrder("Milk Cake", 45);
+
+        Console.WriteLine($"First order created: {cheesecakeCreated}");
+
+        Console.WriteLine($"Second order created: {fruitTartCreated}");
+
+        Console.WriteLine($"Third order created: {milkCakeCreated}");
+
         Console.WriteLine();
+    }
 
-        // 8. Get all orders
+    private static void DisplayAllOrders(OrderController controller)
+    {
         Console.WriteLine("All orders:");
 
         IEnumerable<Order> orders = controller.GetAllOrders();
 
-        foreach (Order order in orders)
-        {
-            string result = string.Format("ID: {0}, Name: {1}, Total: {2}", order.Id, order.Name, order.Total);
-            Console.WriteLine(result);
-        }
-        Console.WriteLine();
+        PrintOrders(orders);
 
-        // 9. Get one order
+        Console.WriteLine();
+    }
+
+    private static void DisplayOrderById(OrderController controller, int id)
+    {
         try
         {
-            Order order = controller.GetOrderById(2);
+            Order order = controller.GetOrderById(id);
 
             Console.WriteLine("Order found:");
-            string result = string.Format("ID: {0}, Name: {1}, Total: {2}", order.Id, order.Name, order.Total);
-            Console.WriteLine(result);
+
+            PrintOrder(order);
         }
         catch (KeyNotFoundException exception)
         {
             Console.WriteLine(exception.Message);
         }
-        Console.WriteLine();
 
-        // 10. Delete order
-        int id = 3;
-        bool deleted = controller.DeleteOrder(id);
-        Console.WriteLine($"Order with ID {id} was deleted successfully.");
         Console.WriteLine();
+    }
 
-        // 11. Display remaining orders
+    private static void DeleteOrder(OrderController controller, int id)
+    {
+        bool deleted =
+            controller.DeleteOrder(id);
+
+        if (deleted)
+        {
+            Console.WriteLine($"Order with ID {id} was deleted successfully.");
+        }
+        else
+        {
+            Console.WriteLine($"Order with ID {id} could not be deleted.");
+        }
+
+        Console.WriteLine();
+    }
+
+    private static void DisplayRemainingOrders(OrderController controller)
+    {
         Console.WriteLine("Remaining orders:");
 
-        foreach (Order order in controller.GetAllOrders())
+        IEnumerable<Order> orders = controller.GetAllOrders();
+
+        PrintOrders(orders);
+    }
+
+    private static void PrintOrders(IEnumerable<Order> orders)
+    {
+        foreach (Order order in orders)
         {
-            string result = string.Format("ID: {0}, Name: {1}, Total: {2}", order.Id, order.Name, order.Total);
-            Console.WriteLine(result);
+            PrintOrder(order);
         }
+    }
+
+    private static void PrintOrder(Order order)
+    {
+        string result = string.Format("ID: {0}, Name: {1}, Total: {2:C}, Status: {3}",
+            order.Id,
+            order.Name,
+            order.Total,
+            order.Status);
+
+        Console.WriteLine(result);
     }
 }

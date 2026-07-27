@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.Abstractions;
+﻿using OrderManager.Application.Abstractions.Mediator;
 
 namespace OrderManager.Application.Mediator
 {

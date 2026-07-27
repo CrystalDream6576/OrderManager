@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OrderManager.Application.Abstractions
+namespace OrderManager.Application.Abstractions.Mediator
 {
     public interface IHandlerRegistry
     {

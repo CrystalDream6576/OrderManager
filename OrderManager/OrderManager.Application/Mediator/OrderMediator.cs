@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.Abstractions;
+﻿using OrderManager.Application.Abstractions.Mediator;
 
 namespace OrderManager.Application.Mediator
 {
@@ -20,7 +20,7 @@ namespace OrderManager.Application.Mediator
 
             IHandlerAdapter adapter = registry.GetHandler(requestType);
 
-            object result = adapter.Handle(request);
+            var result = adapter.Handle(request);
 
             if (result is not TResult typedResult)
             {

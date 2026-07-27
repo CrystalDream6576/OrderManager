@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace OrderManager.Domain.Domain.Order
+using OrderManager.Domain.Entities;
+using OrderManager.Domain.Enums;
+
+namespace OrderManager.Domain.Repositories
 {
     public interface IOrderRepository
     {
-        Order Add(Order order);
+        bool Add(Order order);
 
         bool Delete(int id);
 
