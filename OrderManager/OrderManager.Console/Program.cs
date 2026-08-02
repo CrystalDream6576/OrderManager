@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using OrderManager.Application.Abstractions.Mediator;
+﻿using OrderManager.Application.Abstractions.Mediator;
 using OrderManager.Application.Abstractions.Services;
 using OrderManager.Application.Commands;
 using OrderManager.Application.Handlers;
